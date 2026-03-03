@@ -1,13 +1,12 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useContext } from 'react'
-import { ShopContext } from '../context/ShopContext'
 import { toast } from 'react-toastify'
 
 const List = ({token}) => {
 
   const [list, setList] = useState([])
-  const { backendUrl, currency } = useContext(ShopContext);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const currency = '$';
 
   const fetchList = async () => {
     try {

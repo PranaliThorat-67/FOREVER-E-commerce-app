@@ -4,6 +4,8 @@ import CartTotal from '../components/CartTotal'
 import { assets } from '../assets/assets'
 import { ShopContext } from '../context/ShopContext'
 import { backendUrl } from './../../../admin/src/App';
+import { toast } from 'react-toastify'
+import axios from 'axios';
 
 const PlaceOrder = () => {
 
@@ -48,7 +50,30 @@ const PlaceOrder = () => {
         }
       }
 
-      console.log(orderItems);
+      let orderData = {
+        address: formData,
+        items: orderItems,
+        amount: getCartAmount() + delivery_fee,
+      }
+
+      //place order using cash on delivery
+      switch (method) {
+        case 'cod':
+           const response = await axios.post(backendUrl + '/api/order/place', orderData, {headers: {token}});
+           console.log(response.data);
+            if(response.data.success) {
+              setCartItems({});
+              navigate('/orders');
+            } else {
+              toast.error(response.data.message);
+            }
+            break;
+
+            default:
+              break;
+      }
+        
+
     } catch (error) {
       console.log(error);
     }   

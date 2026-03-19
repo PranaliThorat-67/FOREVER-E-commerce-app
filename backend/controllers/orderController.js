@@ -1,7 +1,8 @@
-import orderModel from "../models/orderModel";
+import orderModel from "../models/orderModel.js";
+import userModel from "../models/userModel.js";
 
 //place order using cash on delivery
-const PlaceOrder = async (req, res) => {
+const placeOrder = async (req, res) => {
     try {
 
         const {userId, items, amount, address} = req.body;
@@ -35,6 +36,7 @@ const PlaceOrder = async (req, res) => {
 //place order using stripe payment
 const placeOrderStripe = async (req, res) => {         
 
+
 }
 
 //place order using razorpay payment
@@ -51,4 +53,27 @@ const allOrders = async (req, res) => {
 //user orders data for frontend
 const userOrders = async (req, res) => {         
 
+    try {
+
+        const { userId } = req.body;
+
+        const orders = await orderModel.find({userId})
+        res.json({success: true, orders});
+
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message});
+    }
 }
+
+//update order status by admin
+const updateOrderStatus = async (req, res) => { 
+
+}
+
+//list orders for admin panel
+const listOrders = async (req, res) => {    
+
+}
+
+
+export {placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrders, updateOrderStatus, listOrders};

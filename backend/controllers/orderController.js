@@ -26,11 +26,7 @@ const placeOrder = async (req, res) => {
         
     }   catch (error) { 
         res.status(500).json({success: false, message: error.message});
-
     }
-    
-
-
 }
 
 //place order using stripe payment
@@ -47,7 +43,13 @@ const placeOrderRazorpay = async (req, res) => {
 
 //all orders data for admin panel
 const allOrders = async (req, res) => {         
-
+    try {
+        const orders = await orderModel.find({})
+        res.json({success: true, orders});  
+        
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message});
+    }
 }
 
 //user orders data for frontend
